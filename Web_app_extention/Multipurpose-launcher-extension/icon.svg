@@ -1,0 +1,46 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient circle -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9900;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF7700;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="64" cy="64" r="60" fill="url(#bgGrad)"/>
+  
+  <!-- Rocket body -->
+  <path d="M 64 25 L 54 55 L 54 70 L 64 75 L 74 70 L 74 55 Z" fill="#0F1117"/>
+  
+  <!-- Rocket window -->
+  <circle cx="64" cy="45" r="6" fill="#7EC8E3"/>
+  
+  <!-- Rocket fins -->
+  <path d="M 54 60 L 45 70 L 54 70 Z" fill="#2E3548"/>
+  <path d="M 74 60 L 83 70 L 74 70 Z" fill="#2E3548"/>
+  
+  <!-- Rocket flame -->
+  <ellipse cx="64" cy="78" rx="8" ry="12" fill="#FFD700"/>
+  <ellipse cx="64" cy="82" rx="5" ry="8" fill="#FF9900"/>
+  
+  <!-- Tool icons around rocket -->
+  <!-- Magnifying glass -->
+  <circle cx="35" cy="35" r="8" fill="none" stroke="#0F1117" stroke-width="2.5"/>
+  <line x1="40" y1="40" x2="45" y2="45" stroke="#0F1117" stroke-width="2.5" stroke-linecap="round"/>
+  
+  <!-- Wrench -->
+  <path d="M 88 35 L 92 31 L 95 34 L 91 38 L 88 35 M 88 35 L 82 41" stroke="#0F1117" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Gear -->
+  <circle cx="90" cy="90" r="6" fill="none" stroke="#0F1117" stroke-width="2"/>
+  <circle cx="90" cy="90" r="3" fill="#0F1117"/>
+  <line x1="90" y1="84" x2="90" y2="82" stroke="#0F1117" stroke-width="2"/>
+  <line x1="90" y1="96" x2="90" y2="98" stroke="#0F1117" stroke-width="2"/>
+  <line x1="84" y1="90" x2="82" y2="90" stroke="#0F1117" stroke-width="2"/>
+  <line x1="96" y1="90" x2="98" y2="90" stroke="#0F1117" stroke-width="2"/>
+  
+  <!-- Box/Package -->
+  <rect x="28" y="85" width="14" height="12" fill="none" stroke="#0F1117" stroke-width="2"/>
+  <line x1="28" y1="91" x2="42" y2="91" stroke="#0F1117" stroke-width="2"/>
+  <line x1="35" y1="85" x2="35" y2="97" stroke="#0F1117" stroke-width="2"/>
+</svg>

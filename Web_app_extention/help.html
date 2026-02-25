@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multipurpose Launcher - Help</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #232f3e;
+            border-bottom: 2px solid #ff9900;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #232f3e;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #232f3e;
+            margin-top: 20px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #ff9900;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .back-button:hover {
+            background-color: #e88a00;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .tool-description {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-left: 3px solid #ff9900;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Multipurpose Launcher - Help Guide</h1>
+        
+        <p>Welcome to the Multipurpose Launcher help guide. This tool is designed to streamline your workflow by providing quick access to various Amazon internal tools and resources.</p>
+        
+        <div class="section">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#general">General Usage</a></li>
+                <li><a href="#case-ids">Case IDs Section</a></li>
+                <li><a href="#seller-order">Seller ID / Order ID Section</a></li>
+                <li><a href="#asins">ASINs Section</a></li>
+                <li><a href="#sims">Search for SIM's Section</a></li>
+                <li><a href="#tool-cards">Tool Cards</a></li>
+                <li><a href="#search">Search Functionality</a></li>
+                <li><a href="#tools-detail">Detailed Tool Information</a></li>
+            </ul>
+        </div>
+        
+        <div id="general" class="section">
+            <h2>General Usage</h2>
+            <p>The Multipurpose Launcher is divided into several sections:</p>
+            <ul>
+                <li>Input sections at the top for launching specific types of IDs</li>
+                <li>Tool cards organized by category below</li>
+                <li>Search functionality to quickly find tools</li>
+            </ul>
+            <p>Each section is designed to handle specific types of IDs and direct you to the appropriate tools.</p>
+        </div>
+        
+        <div id="case-ids" class="section">
+            <h2>Case IDs Section</h2>
+            <h3>How to use:</h3>
+            <ol>
+                <li>Enter one or more Case IDs in the text area (one per line)</li>
+                <li>Select the appropriate region (NA or EU)</li>
+                <li>Click the LAUNCH button</li>
+            </ol>
+            <h3>What happens:</h3>
+            <p>Each Case ID will open in Paragon with the correct domain based on the selected region. This allows you to quickly access multiple cases without having to manually navigate to each one.</p>
+        </div>
+        
+        <div id="seller-order" class="section">
+            <h2>Seller ID / Order ID Section</h2>
+            <h3>How to use:</h3>
+            <ol>
+                <li>Enter one or more Seller IDs or Order IDs in the text area (one per line)</li>
+                <li>Select the appropriate region (NA or EU)</li>
+                <li>Select the tool (Paragon or Brand Registry)</li>
+                <li>Click the LAUNCH button</li>
+            </ol>
+            <h3>What happens:</h3>
+            <p>The launcher will automatically detect the type of ID and open the appropriate tool:</p>
+            <ul>
+                <li><strong>Order IDs with hyphens</strong> (e.g., 112-8419001-7170665): Opens in Seller Central with the direct order view</li>
+                <li><strong>Order IDs starting with 'A'</strong>: Opens in Seller Central with the order details view</li>
+                <li><strong>Seller IDs with Paragon selected</strong>: Opens in Paragon search with the correct domain based on region</li>
+                <li><strong>Seller IDs with Brand Registry selected</strong>: Opens in Brand Registry search</li>
+            </ul>
+            <p>This intelligent routing saves time by automatically directing you to the right tool based on the ID format.</p>
+        </div>
+        
+        <div id="asins" class="section">
+            <h2>ASINs Section</h2>
+            <h3>How to use:</h3>
+            <ol>
+                <li>Enter one or more ASINs in the text area (one per line)</li>
+                <li>Select the region (NA, EU, FE, or Other)</li>
+                <li>Select the marketplace (automatically populated based on region)</li>
+                <li>Select the tool from the dropdown (CP-Central, CSI-TimeMachine, CSI, Media Central)</li>
+                <li>Click the LAUNCH button</li>
+            </ol>
+            <p>Alternatively, you can use the checkboxes to open ASINs in multiple tools at once:</p>
+            <ol>
+                <li>Check one or more tool checkboxes</li>
+                <li>Click the LAUNCH SELECTED button</li>
+            </ol>
+            <h3>What happens:</h3>
+            <p>Each ASIN will open in the selected tool(s) with the appropriate parameters. This allows you to quickly check multiple ASINs across different tools without having to manually enter each one.</p>
+            <p>If no checkboxes are selected when using the LAUNCH SELECTED button, it will use the tool selected in the dropdown.</p>
+        </div>
+        
+        <div id="sims" class="section">
+            <h2>Search for SIM's Section</h2>
+            <h3>How to use:</h3>
+            <ol>
+                <li>Enter a Seller ID in the text area</li>
+                <li>Click the LAUNCH button</li>
+            </ol>
+            <h3>What happens:</h3>
+            <p>The Seller ID will open in the SIM search, showing all SIMs (opened or resolved) for the given Seller ID, sorted by the last updated conversation date in descending order. This helps you quickly find relevant SIMs for a particular seller.</p>
+        </div>
+        
+        <div id="tool-cards" class="section">
+            <h2>Tool Cards</h2>
+            <p>The tool cards are organized into categories:</p>
+            <ul>
+                <li><strong>Investigation Tools:</strong> Tools for case management and investigation</li>
+                <li><strong>Research & Verification Tools:</strong> Tools for research and verification</li>
+                <li><strong>IP & Brand Protection:</strong> Tools for intellectual property and brand protection</li>
+            </ul>
+            <h3>How to use:</h3>
+            <ol>
+                <li>Click on any tool card to open the corresponding tool in a new tab</li>
+            </ol>
+            <p>You can also use the search box at the top to quickly find a specific tool.</p>
+        </div>
+        
+        <div id="search" class="section">
+            <h2>Search Functionality</h2>
+            <h3>How to use:</h3>
+            <ol>
+                <li>Type in the search box at the top of the page</li>
+            </ol>
+            <h3>What happens:</h3>
+            <p>As you type, the tool will filter the tool cards to show only those that match your search term. The search looks at both the tool name and description.</p>
+            <p>Categories with no matching tools will be hidden, making it easier to find what you're looking for.</p>
+        </div>
+        
+        <div id="tools-detail" class="section">
+            <h2>Detailed Tool Information</h2>
+            
+            <h3>Investigation Tools</h3>
+            
+            <div class="tool-description">
+                <h4>Paragon</h4>
+                <p><strong>Purpose:</strong> Primary case management system for handling customer and seller issues.</p>
+                <p><strong>When to use:</strong> When you need to view case details, update cases, or search for cases by various parameters.</p>
+                <p><strong>Key features:</strong> Case viewing, case updating, case search, case history tracking.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>CSI (Catalog Simple Investigation)</h4>
+                <p><strong>Purpose:</strong> Tool for investigating product catalog data and issues.</p>
+                <p><strong>When to use:</strong> When you need to check product details, variations, offers, or catalog issues.</p>
+                <p><strong>Key features:</strong> Product data viewing, offer information, variation relationships, catalog health metrics.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>TimeMachine</h4>
+                <p><strong>Purpose:</strong> Tool for viewing historical data about products and listings.</p>
+                <p><strong>When to use:</strong> When you need to check how a product listing has changed over time or investigate past issues.</p>
+                <p><strong>Key features:</strong> Historical data viewing, timeline of changes, comparison between dates.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>Seller Central</h4>
+                <p><strong>Purpose:</strong> Main portal for sellers to manage their Amazon business.</p>
+                <p><strong>When to use:</strong> When you need to view the seller's perspective or check seller-specific information.</p>
+                <p><strong>Key features:</strong> Order management, inventory management, performance metrics, seller settings.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>SIM Search</h4>
+                <p><strong>Purpose:</strong> Tool for searching and managing Seller Issue Management cases.</p>
+                <p><strong>When to use:</strong> When you need to find SIMs related to specific sellers or issues.</p>
+                <p><strong>Key features:</strong> SIM search, SIM creation, SIM management, issue tracking.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>Media Central</h4>
+                <p><strong>Purpose:</strong> Repository for product images and media.</p>
+                <p><strong>When to use:</strong> When you need to check product images or investigate image-related issues.</p>
+                <p><strong>Key features:</strong> Image viewing, image history, image metadata.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>Darwin</h4>
+                <p><strong>Purpose:</strong> Tool for investigating duplicate ASIN issues.</p>
+                <p><strong>When to use:</strong> When you need to compare two or more ASINs to determine if they are duplicates.</p>
+                <p><strong>Key features:</strong> Side-by-side ASIN comparison, attribute comparison, duplicate detection.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>CP Central</h4>
+                <p><strong>Purpose:</strong> Tool for investigating restricted product issues.</p>
+                <p><strong>When to use:</strong> When you need to check if a product violates policies or understand why a product is restricted.</p>
+                <p><strong>Key features:</strong> Policy violation checking, keyword detection, restriction reason identification.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>Nemo Tool</h4>
+                <p><strong>Purpose:</strong> Tool for accessing specific task IDs in Paragon.</p>
+                <p><strong>When to use:</strong> When you need secure access to case data for audits or special projects.</p>
+                <p><strong>Key features:</strong> Secure access, task ID lookup, controlled data access.</p>
+            </div>
+            
+            <h3>Research & Verification Tools</h3>
+            
+            <div class="tool-description">
+                <h4>WhoIs</h4>
+                <p><strong>Purpose:</strong> Tool for looking up domain registration information.</p>
+                <p><strong>When to use:</strong> When you need to verify domain ownership or check domain registration details.</p>
+                <p><strong>Key features:</strong> Domain lookup, registration information, contact details.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>What is my IP</h4>
+                <p><strong>Purpose:</strong> Tool for IP address lookup and information.</p>
+                <p><strong>When to use:</strong> When you need to check IP address details or location.</p>
+                <p><strong>Key features:</strong> IP lookup, geolocation, ISP information.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>Amazon Translate</h4>
+                <p><strong>Purpose:</strong> Translation service for multiple languages.</p>
+                <p><strong>When to use:</strong> When you need to translate text from one language to another.</p>
+                <p><strong>Key features:</strong> Text translation, language detection, batch translation.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>Global Transfer Guide</h4>
+                <p><strong>Purpose:</strong> Guide for all transfer queues across Amazon.</p>
+                <p><strong>When to use:</strong> When you need to find the correct queue for transferring a case or issue.</p>
+                <p><strong>Key features:</strong> Queue listings, transfer procedures, contact information.</p>
+            </div>
+            
+            <h3>IP & Brand Protection</h3>
+            
+            <div class="tool-description">
+                <h4>EUIPO</h4>
+                <p><strong>Purpose:</strong> European Union Intellectual Property Office website.</p>
+                <p><strong>When to use:</strong> When you need to verify EU trademarks or intellectual property.</p>
+                <p><strong>Key features:</strong> Trademark search, design search, IP guidelines.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>WIPO</h4>
+                <p><strong>Purpose:</strong> World Intellectual Property Organization database.</p>
+                <p><strong>When to use:</strong> When you need to check international trademark registrations.</p>
+                <p><strong>Key features:</strong> Global brand database, international registrations, Madrid system.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>USPTO</h4>
+                <p><strong>Purpose:</strong> United States Patent and Trademark Office website.</p>
+                <p><strong>When to use:</strong> When you need to verify US trademarks or patents.</p>
+                <p><strong>Key features:</strong> Trademark search, patent search, TESS database.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>IP India</h4>
+                <p><strong>Purpose:</strong> Indian Intellectual Property Office website.</p>
+                <p><strong>When to use:</strong> When you need to verify Indian trademarks or intellectual property.</p>
+                <p><strong>Key features:</strong> Trademark search, patent search, design search.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>IP Tracker</h4>
+                <p><strong>Purpose:</strong> Tool for tracking IP addresses and their information.</p>
+                <p><strong>When to use:</strong> When you need detailed information about an IP address.</p>
+                <p><strong>Key features:</strong> IP lookup, geolocation, network information.</p>
+            </div>
+            
+            <div class="tool-description">
+                <h4>Brand Registry</h4>
+                <p><strong>Purpose:</strong> Amazon's brand protection program and tool.</p>
+                <p><strong>When to use:</strong> When you need to verify brand ownership or handle brand protection issues.</p>
+                <p><strong>Key features:</strong> Brand verification, infringement reporting, brand protection tools.</p>
+            </div>
+        </div>
+        
+        <a href="Multipurpose_Launcher.html" class="back-button">Back to Launcher</a>
+    </div>
+</body>
+</html>

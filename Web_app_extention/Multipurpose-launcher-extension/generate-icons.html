@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        h1 { color: #FF9900; }
+        .icon-preview { display: flex; gap: 20px; margin: 20px 0; }
+        .icon-box { text-align: center; }
+        canvas { border: 2px solid #ddd; display: block; margin: 10px auto; }
+        button { background: #FF9900; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; margin: 5px; }
+        button:hover { background: #FF7700; }
+        .instructions { background: #fff3cd; padding: 15px; border-radius: 4px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Multipurpose Launcher Icon Generator</h1>
+        
+        <div class="instructions">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Click each "Download" button below to save the icon files</li>
+                <li>Save them as: <code>icon16.png</code>, <code>icon48.png</code>, <code>icon128.png</code></li>
+                <li>Place all 3 files in the <code>asin-launcher-extension/icons/</code> folder</li>
+                <li>Reload the extension in Chrome (chrome://extensions/)</li>
+            </ol>
+        </div>
+
+        <div class="icon-preview">
+            <div class="icon-box">
+                <h3>16x16</h3>
+                <canvas id="canvas16" width="16" height="16"></canvas>
+                <button onclick="downloadIcon(16)">Download icon16.png</button>
+            </div>
+            <div class="icon-box">
+                <h3>48x48</h3>
+                <canvas id="canvas48" width="48" height="48"></canvas>
+                <button onclick="downloadIcon(48)">Download icon48.png</button>
+            </div>
+            <div class="icon-box">
+                <h3>128x128</h3>
+                <canvas id="canvas128" width="128" height="128"></canvas>
+                <button onclick="downloadIcon(128)">Download icon128.png</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const svgString = `<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9900;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF7700;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="60" fill="url(#bgGrad)"/>
+  <path d="M 64 25 L 54 55 L 54 70 L 64 75 L 74 70 L 74 55 Z" fill="#0F1117"/>
+  <circle cx="64" cy="45" r="6" fill="#7EC8E3"/>
+  <path d="M 54 60 L 45 70 L 54 70 Z" fill="#2E3548"/>
+  <path d="M 74 60 L 83 70 L 74 70 Z" fill="#2E3548"/>
+  <ellipse cx="64" cy="78" rx="8" ry="12" fill="#FFD700"/>
+  <ellipse cx="64" cy="82" rx="5" ry="8" fill="#FF9900"/>
+  <circle cx="35" cy="35" r="8" fill="none" stroke="#0F1117" stroke-width="2.5"/>
+  <line x1="40" y1="40" x2="45" y2="45" stroke="#0F1117" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 88 35 L 92 31 L 95 34 L 91 38 L 88 35 M 88 35 L 82 41" stroke="#0F1117" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <circle cx="90" cy="90" r="6" fill="none" stroke="#0F1117" stroke-width="2"/>
+  <circle cx="90" cy="90" r="3" fill="#0F1117"/>
+  <line x1="90" y1="84" x2="90" y2="82" stroke="#0F1117" stroke-width="2"/>
+  <line x1="90" y1="96" x2="90" y2="98" stroke="#0F1117" stroke-width="2"/>
+  <line x1="84" y1="90" x2="82" y2="90" stroke="#0F1117" stroke-width="2"/>
+  <line x1="96" y1="90" x2="98" y2="90" stroke="#0F1117" stroke-width="2"/>
+  <rect x="28" y="85" width="14" height="12" fill="none" stroke="#0F1117" stroke-width="2"/>
+  <line x1="28" y1="91" x2="42" y2="91" stroke="#0F1117" stroke-width="2"/>
+  <line x1="35" y1="85" x2="35" y2="97" stroke="#0F1117" stroke-width="2"/>
+</svg>`;
+
+        function drawIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            const blob = new Blob([svgString], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(blob);
+            
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, size, size);
+                URL.revokeObjectURL(url);
+            };
+            img.src = url;
+        }
+
+        function downloadIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // Draw all icons on page load
+        window.onload = function() {
+            drawIcon(16);
+            drawIcon(48);
+            drawIcon(128);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.1">
+        <g transform="translate(50.000000, 50.000000)" fill="#37cdbe">
+            <path d="M350,0 C450,150 500,250 500,350 C500,450 450,500 350,500 C250,500 200,450 200,350 C200,250 250,150 350,0 Z"></path>
+            <path d="M150,200 C250,350 300,450 300,550 C300,650 250,700 150,700 C50,700 0,650 0,550 C0,450 50,350 150,200 Z"></path>
+            <path d="M550,200 C650,350 700,450 700,550 C700,650 650,700 550,700 C450,700 400,650 400,550 C400,450 450,350 550,200 Z"></path>
+        </g>
+    </g>
+</svg>

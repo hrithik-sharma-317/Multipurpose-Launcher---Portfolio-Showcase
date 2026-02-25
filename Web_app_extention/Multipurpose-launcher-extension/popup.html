@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASIN Bulk Launcher</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="header">
+    <h1>🔍 Multipurpose Launcher</h1>
+    <p class="subtitle">Investigation Tools Extension</p>
+    <button id="resetBtn" class="reset-btn" title="Reset all data">🔄 Reset</button>
+  </div>
+
+  <div class="section-tabs">
+    <button class="tab-btn active" data-section="asins">ASINs</button>
+    <button class="tab-btn" data-section="cases">Case IDs</button>
+    <button class="tab-btn" data-section="seller">Seller ID</button>
+    <button class="tab-btn" data-section="order">Order/ASIN</button>
+    <button class="tab-btn" data-section="sim">SIM Search</button>
+    <button class="tab-btn" data-section="physical">Physical ID</button>
+  </div>
+
+  <!-- ASIN Section -->
+  <div id="section-asins" class="section active">
+    <div class="manual-input">
+      <input type="text" id="manualAsinInput" placeholder="Filter or add ASIN (press Enter to add)" />
+    </div>
+
+    <div class="controls">
+      <button id="selectAll">Select All</button>
+      <button id="deselectAll">Deselect All</button>
+      <span id="count">0 selected</span>
+    </div>
+
+    <div id="asin-list" class="asin-list">
+      <p class="loading">Scanning page for ASINs...</p>
+    </div>
+
+    <div class="region-selector">
+      <label>Region:</label>
+      <select id="region">
+        <option value="na">NA</option>
+        <option value="eu">EU</option>
+        <option value="fe">FE</option>
+        <option value="other">Other</option>
+      </select>
+      <label>Marketplace:</label>
+      <select id="marketplace">
+        <option value="1">US (1)</option>
+      </select>
+    </div>
+
+    <div class="tool-section">
+      <p class="section-label">Single Tool Launch:</p>
+      <select id="toolSelect" class="tool-select">
+        <option value="cp">CP-Central</option>
+        <option value="csi-tm">CSI-TimeMachine</option>
+        <option value="csi">CSI</option>
+        <option value="media">Media Central</option>
+      </select>
+      <button id="singleLaunch" class="launch-btn">🚀 LAUNCH</button>
+    </div>
+
+    <div id="csiViewContainer" class="csi-container" style="display:none;">
+      <select id="csiViewType">
+        <option value="blame_o">Blame-O</option>
+        <option value="simple_product_data_view">Simple Reconciled Product Data View</option>
+        <option value="asin_creator">ASIN Creator</option>
+        <option value="authoritative_contributions">Authoritative Contribution History (ACT)</option>
+        <option value="c2p_item_relationships">Child to Parent Relationships</option>
+        <option value="c2p_item_relationships_detailed">Child to Parent Relationships Detailed</option>
+        <option value="external_identifier_view">External Identifiers</option>
+        <option value="domains_for_asin">Marketplaces</option>
+        <option value="asin_sku_mappings">Merchant SKU Mappings</option>
+        <option value="asin_sku_mappings_by_merchant">Merchant SKU Mappings By Merchant</option>
+        <option value="p2c_item_relationships">Parent to Child Item Relationships</option>
+        <option value="p2c_variation_dimensions_view">Parent to Child Variation View</option>
+        <option value="retail_contributions_across_marketplaces">Retail Contributions</option>
+        <option value="summarized_asin_sku_mappings">Summarized Merchant SKU Mappings</option>
+      </select>
+    </div>
+
+    <div id="csiKeywordContainer" class="csi-container" style="display:none;">
+      <input type="text" id="csiKeyword" placeholder="Enter keyword (optional)" />
+    </div>
+
+    <div id="csiMerchantContainer" class="csi-container" style="display:none;">
+      <input type="text" id="csiMerchantId" placeholder="Enter Merchant ID or Customer ID" />
+    </div>
+
+    <div class="multi-tool-section">
+      <p class="section-label">Multi-Tool Launch (Select Multiple):</p>
+      <div class="tool-checkboxes">
+        <label><input type="checkbox" class="tool-cb" value="cp"> CP-Central</label>
+        <label><input type="checkbox" class="tool-cb" value="csi-tm"> CSI-TimeMachine</label>
+        <label><input type="checkbox" class="tool-cb" value="csi"> CSI</label>
+        <label><input type="checkbox" class="tool-cb" value="media"> Media Central</label>
+      </div>
+      <button id="multiLaunch" class="launch-btn">🚀 LAUNCH SELECTED TOOLS</button>
+    </div>
+  </div>
+
+  <!-- Case IDs Section -->
+  <div id="section-cases" class="section">
+    <textarea id="caseInput" placeholder="Enter Case IDs (one per line)"></textarea>
+    <div class="action-row">
+      <select id="caseRegion">
+        <option value="na">NA</option>
+        <option value="eu">EU</option>
+        <option value="fe">FE</option>
+      </select>
+      <button id="caseLaunch" class="launch-btn">🚀 LAUNCH</button>
+    </div>
+  </div>
+
+  <!-- Seller ID Section -->
+  <div id="section-seller" class="section">
+    <textarea id="sellerInput" placeholder="Enter Seller ID"></textarea>
+    <div class="action-row">
+      <select id="sellerRegion">
+        <option value="na">NA</option>
+        <option value="eu">EU</option>
+        <option value="fe">FE</option>
+      </select>
+      <select id="sellerTool">
+        <option value="paragon">Paragon</option>
+        <option value="brand">Brand Registry</option>
+      </select>
+      <select id="brandSearchType" style="display:none;">
+        <option value="name">Brand Name</option>
+        <option value="id">Brand ID</option>
+        <option value="mcid">MCID</option>
+        <option value="cid">CID</option>
+        <option value="companyCode">Company Code</option>
+        <option value="partnerAccountId">Partner Account ID</option>
+        <option value="trademarkNumber">Trademark Number</option>
+      </select>
+      <button id="sellerLaunch" class="launch-btn">🚀 LAUNCH</button>
+    </div>
+  </div>
+
+  <!-- Order/ASIN Section -->
+  <div id="section-order" class="section">
+    <textarea id="orderInput" placeholder="Enter Order ID or ASIN"></textarea>
+    <div class="action-row">
+      <select id="orderRegion">
+        <option value="na">NA</option>
+        <option value="eu">EU</option>
+        <option value="fe">FE</option>
+      </select>
+      <select id="orderDomain">
+        <option value="com">US (.com)</option>
+      </select>
+      <select id="orderType">
+        <option value="order">Order ID</option>
+        <option value="asin">ASIN</option>
+      </select>
+      <button id="orderLaunch" class="launch-btn">🚀 LAUNCH</button>
+    </div>
+  </div>
+
+  <!-- SIM Search Section -->
+  <div id="section-sim" class="section">
+    <textarea id="simInput" placeholder="Enter search term"></textarea>
+    <textarea id="simKeywords" placeholder="Enter keywords (optional)" style="display:none;"></textarea>
+    <div class="action-row">
+      <select id="simSearchType">
+        <option value="keyword">Keyword</option>
+        <option value="requester">Requester</option>
+        <option value="assignee">Assignee</option>
+      </select>
+      <button id="simLaunch" class="launch-btn">🚀 LAUNCH</button>
+    </div>
+  </div>
+
+  <!-- Physical ID Section -->
+  <div id="section-physical" class="section">
+    <textarea id="physicalInput" placeholder="Enter Physical IDs (One ID per Line)"></textarea>
+    <div class="action-row">
+      <button id="physicalLaunch" class="launch-btn">🚀 LAUNCH</button>
+    </div>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

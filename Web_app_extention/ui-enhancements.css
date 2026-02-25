@@ -1,0 +1,154 @@
+/* Enhanced UI Elements */
+:root {
+  --glow-color: rgba(55, 205, 190, 0.6);
+}
+
+/* Improved card animations */
+.input-group {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.input-group:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 15px var(--glow-color);
+}
+
+/* Glowing effect for buttons */
+.launch-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.launch-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--secondary-color), var(--accent-color), var(--secondary-color));
+  z-index: -1;
+  border-radius: var(--border-radius);
+  background-size: 400%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.launch-btn:hover::before {
+  opacity: 1;
+  animation: glowing 2s linear infinite;
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* Improved link cards */
+.link-card {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.link-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 0 15px var(--glow-color);
+}
+
+.icon {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.link-card:hover .icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* Floating animation for cards */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+.category .link-card:nth-child(odd) {
+  animation: float 3s ease-in-out infinite;
+}
+
+.category .link-card:nth-child(even) {
+  animation: float 3.5s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+/* Improved form elements */
+textarea:focus {
+  box-shadow: 0 0 0 3px var(--glow-color);
+  transform: scale(1.01);
+}
+
+select:focus {
+  box-shadow: 0 0 0 3px var(--glow-color);
+}
+
+/* Loading indicator for buttons */
+.launch-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.launch-btn.loading::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin-top: -10px;
+  margin-left: -10px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Improved header */
+header {
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  animation: shine 6s infinite;
+  z-index: 0;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  50% { transform: translateX(100%) rotate(45deg); }
+  100% { transform: translateX(-100%) rotate(45deg); }
+}
+
+/* Improved dark mode */
+.dark-theme .input-group:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(55, 205, 190, 0.4);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .input-group:hover {
+    transform: translateY(-3px) scale(1.005);
+  }
+}

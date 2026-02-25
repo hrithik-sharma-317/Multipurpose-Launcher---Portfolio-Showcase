@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Multipurpose Launcher",
+  "version": "1.0.0",
+  "description": "Launch ASINs, Case IDs, Seller IDs, and more into Amazon investigation tools.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs",
+    "tabGroups",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "ASIN Bulk Launcher"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

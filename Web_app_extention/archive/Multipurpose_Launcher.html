@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multipurpose_Launcher</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ui-enhancements.css">
+    <link rel="stylesheet" href="ui-enhancements-extra.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Security script to prevent developer tools access -->
+    <script src="security.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Define marketplace domains by region
+            const marketplaceDomains = {
+                'na': [
+                    { domain: 'com', name: 'US (.com)' },
+                    { domain: 'com', name: 'CA (.com)' },
+                    { domain: 'com', name: 'MX (.com)' }
+                ],
+                'eu': [
+                    { domain: 'co.uk', name: 'UK (.co.uk)' },
+                    { domain: 'de', name: 'DE (.de)' },
+                    { domain: 'fr', name: 'FR (.fr)' },
+                    { domain: 'it', name: 'IT (.it)' },
+                    { domain: 'es', name: 'ES (.es)' },
+                    { domain: 'nl', name: 'NL (.nl)' },
+                    { domain: 'se', name: 'SE (.se)' },
+                    { domain: 'pl', name: 'PL (.pl)' }
+                ],
+                'fe': [
+                    { domain: 'co.jp', name: 'JP (.co.jp)' },
+                    { domain: 'in', name: 'IN (.in)' },
+                    { domain: 'com.au', name: 'AU (.com.au)' },
+                    { domain: 'com.br', name: 'BR (.com.br)' },
+                    { domain: 'sg', name: 'SG (.sg)' },
+                    { domain: 'ae', name: 'AE (.ae)' },
+                    { domain: 'sa', name: 'SA (.sa)' }
+                ]
+            };
+            
+            // Define marketplace IDs by region
+            const marketplacesByRegion = {
+                'na': [
+                    { id: '1', name: 'US (1)' },
+                    { id: '7', name: 'CA (7)' },
+                    { id: '763040', name: 'MX (763040)' },
+                    { id: '526970', name: 'BR (526970)' }
+                ],
+                'eu': [
+                    { id: '3', name: 'UK (3)' },
+                    { id: '4', name: 'DE (4)' },
+                    { id: '5', name: 'FR (5)' },
+                    { id: '35691', name: 'IT (35691)' },
+                    { id: '44551', name: 'ES (44551)' },
+                    { id: '44571', name: 'IN (44571)' },
+                    { id: '328451', name: 'NL (328451)' },
+                    { id: '338801', name: 'AE (338801)' },
+                    { id: '338811', name: 'SA (338811)' },
+                    { id: '338851', name: 'TR (338851)' },
+                    { id: '409652051', name: 'EG (409652051)' },
+                    { id: '679831071', name: 'BE (679831071)' },
+                    { id: '680844071', name: 'ZA (680844071)' },
+                    { id: '704403121', name: 'SE (704403121)' },
+                    { id: '712115121', name: 'PL (712115121)' }
+                ],
+                'fe': [
+                    { id: '6', name: 'JP (6)' },
+                    { id: '3240', name: 'CN (3240)' },
+                    { id: '111172', name: 'AU (111172)' },
+                    { id: '151302', name: 'SG (151302)' }
+                ],
+                'other': [
+                    { id: '101418', name: 'Fulfillment (101418)' }
+                ]
+            };
+            
+            // Function to update marketplace dropdown based on selected region
+            function updateMarketplaceOptions() {
+                const regionSelect = document.getElementById('asinRegion');
+                const marketplaceSelect = document.getElementById('asinMarketplace');
+                const selectedRegion = regionSelect.value;
+                
+                // Clear existing options
+                marketplaceSelect.innerHTML = '';
+                
+                // Add new options based on selected region
+                marketplacesByRegion[selectedRegion].forEach(marketplace => {
+                    const option = document.createElement('option');
+                    option.value = marketplace.id;
+                    option.textContent = marketplace.name;
+                    marketplaceSelect.appendChild(option);
+                });
+            }
+            
+            // Set up event listener for region change
+            document.getElementById('asinRegion').addEventListener('change', updateMarketplaceOptions);
+            
+            // Initialize marketplace dropdown
+            updateMarketplaceOptions();
+            
+            // Function to update marketplace domain dropdown based on selected region
+            function updateMarketplaceDomainOptions() {
+                const regionSelect = document.getElementById('orderAsinRegion');
+                const domainSelect = document.getElementById('orderAsinDomain');
+                const selectedRegion = regionSelect.value;
+                
+                // Clear existing options
+                domainSelect.innerHTML = '';
+                
+                // Add new options based on selected region
+                marketplaceDomains[selectedRegion].forEach(marketplace => {
+                    const option = document.createElement('option');
+                    option.value = marketplace.domain;
+                    option.textContent = marketplace.name;
+                    domainSelect.appendChild(option);
+                });
+            }
+            
+            // Set up event listener for region change in Order/ASIN section
+            document.getElementById('orderAsinRegion').addEventListener('change', updateMarketplaceDomainOptions);
+            
+            // Initialize marketplace domain dropdown
+            updateMarketplaceDomainOptions();
+            
+            // Show/hide brand search type dropdown
+            const sellerToolSelect = document.querySelector('.seller-tool');
+            if (sellerToolSelect) {
+                sellerToolSelect.addEventListener('change', function() {
+                    const brandSearchType = document.getElementById('brandSearchType');
+                    if (brandSearchType) {
+                        brandSearchType.style.display = this.value === 'brand' ? 'block' : 'none';
+                    }
+                });
+            }
+            
+            // Lock button functionality for Buyer ID
+            let buyerIdUnlocked = false;
+            let buyerOption = null;
+            document.getElementById('unlockBuyerBtn')?.addEventListener('click', function() {
+                if (!buyerIdUnlocked) {
+                    const passcode = prompt('Enter passcode to unlock option');
+                    if (passcode === '170317') {
+                        buyerIdUnlocked = true;
+                        buyerOption = document.createElement('option');
+                        buyerOption.value = 'buyer';
+                        buyerOption.textContent = 'Buyer ID';
+                        document.querySelector('.seller-tool').appendChild(buyerOption);
+                        this.innerHTML = '<i class="fas fa-unlock"></i>';
+                        this.style.background = 'linear-gradient(135deg, #28a745, #218838)';
+                        alert('Buyer ID option unlocked!');
+                    } else {
+                        alert('Incorrect passcode!');
+                    }
+                } else {
+                    buyerIdUnlocked = false;
+                    if (buyerOption) {
+                        buyerOption.remove();
+                        buyerOption = null;
+                    }
+                    this.innerHTML = '<i class="fas fa-lock"></i>';
+                    this.style.background = 'linear-gradient(135deg, #6c757d, #5a6268)';
+                }
+            });
+            
+            // Show/hide SIM keywords field
+            document.getElementById('simSearchType').addEventListener('change', function() {
+                const keywordsField = document.getElementById('simKeywords');
+                keywordsField.style.display = (this.value === 'requester' || this.value === 'assignee') ? 'block' : 'none';
+            });
+            
+            // Show/hide CSI-specific fields
+            function toggleCSIFields() {
+                const csiViewContainer = document.getElementById('csiViewContainer');
+                const csiKeywordContainer = document.getElementById('csiKeywordContainer');
+                const csiMerchantContainer = document.getElementById('csiMerchantContainer');
+                const dropdownSelected = document.getElementById('asinTool').value === 'csi';
+                const checkboxChecked = document.querySelector('.asin-tool-cb[value="csi"]')?.checked;
+                
+                if (dropdownSelected || checkboxChecked) {
+                    csiViewContainer.style.display = 'block';
+                    csiKeywordContainer.style.display = 'block';
+                    toggleMerchantField();
+                } else {
+                    csiViewContainer.style.display = 'none';
+                    csiKeywordContainer.style.display = 'none';
+                    csiMerchantContainer.style.display = 'none';
+                }
+            }
+            
+            function toggleMerchantField() {
+                const viewType = document.getElementById('csiViewType').value;
+                const csiMerchantContainer = document.getElementById('csiMerchantContainer');
+                csiMerchantContainer.style.display = viewType === 'asin_sku_mappings_by_merchant' ? 'block' : 'none';
+            }
+            
+            document.getElementById('asinTool').addEventListener('change', toggleCSIFields);
+            document.getElementById('csiViewType').addEventListener('change', toggleMerchantField);
+            document.querySelectorAll('.asin-tool-cb').forEach(cb => {
+                cb.addEventListener('change', toggleCSIFields);
+            });
+            
+            // SIM Search functionality
+            document.getElementById('simLaunchBtn').addEventListener('click', function() {
+                const searchTerm = document.getElementById('simInput').value.trim();
+                const searchType = document.getElementById('simSearchType').value;
+                const keywords = document.getElementById('simKeywords').value.trim();
+                
+                if (!searchTerm) {
+                    alert('Please enter a search term');
+                    return;
+                }
+                
+                let url;
+                if (searchType === 'requester') {
+                    let query = `requester%3A(${encodeURIComponent(searchTerm)})`;
+                    if (keywords) {
+                        query += `+(${encodeURIComponent(keywords)})`;
+                    }
+                    url = `https://issues.amazon.com/issues/search?q=${query}&sort=lastUpdatedConversationDate+desc&selectedDocument=0d06fd54-6c6a-4392-aaa1-70d4bff357e1`;
+                } else if (searchType === 'assignee') {
+                    let query = `assignee%3A(${encodeURIComponent(searchTerm)})`;
+                    if (keywords) {
+                        query += `+(${encodeURIComponent(keywords)})`;
+                    }
+                    url = `https://issues.amazon.com/issues/search?q=${query}&sort=lastUpdatedConversationDate+desc&selectedDocument=0d06fd54-6c6a-4392-aaa1-70d4bff357e1`;
+                } else {
+                    url = `https://issues.amazon.com/issues/search?q=(${encodeURIComponent(searchTerm)})&sort=lastUpdatedConversationDate+desc&selectedDocument=0d06fd54-6c6a-4392-aaa1-70d4bff357e1`;
+                }
+                window.open(url, '_blank');
+            });
+            
+            // Physical ID Search functionality
+            document.getElementById('physicalIdLaunchBtn').addEventListener('click', function() {
+                const physicalIds = document.getElementById('physicalIdInput').value.trim().split('\n').filter(id => id.trim() !== '');
+                
+                if (physicalIds.length === 0) {
+                    alert('Please enter at least one Physical ID');
+                    return;
+                }
+                
+                const trimmedIds = physicalIds.map(id => encodeURIComponent(id.trim()));
+                const url = `https://console.harmony.a2z.com/media-central/image-lookup?physicalIds=${trimmedIds.join(',')}`;
+                window.open(url, '_blank');
+            });
+            
+            // URL templates for different tools with correct URLs
+            const urlTemplates = {
+                'cp': 'https://www.cp-central.catalog.amazon.dev/#/members?asins={asin}&programs=RestrictedProducts,ProductSafety,RecalledProducts,OffensiveProducts,EPR,FoodSafety&marketplaces={marketplaceId}',
+                'csi-tm': 'https://timemachine.amazon.com/index.html#/product/{asin}',
+                'media': 'https://console.harmony.a2z.com/media-central/product-images?asin={asin}'
+            };
+            
+            function buildCSIUrl(asin, marketplaceId, region) {
+                const viewType = document.getElementById('csiViewType').value;
+                const keyword = document.getElementById('csiKeyword').value.trim();
+                const mpId = viewType === 'domains_for_asin' ? '' : marketplaceId;
+                let merchantId = '';
+                let customerId = '';
+                
+                if (viewType === 'asin_sku_mappings_by_merchant') {
+                    const merchantInput = document.getElementById('csiMerchantId').value.trim();
+                    merchantId = merchantInput;
+                    customerId = merchantInput;
+                }
+                
+                return `https://csi.amazon.com/view?view=${viewType}&item_id=${asin}&marketplace_id=${mpId}&customer_id=${customerId}&merchant_id=${merchantId}&sku=&fn_sku=&gcid=&fulfillment_channel_code=&listing_type=purchasable&submission_id=&order_id=&external_id=&page_token_provided=false&search_string=&realm=USAmazon&region=${region}&stage=prod&domain_id=&tb=true&keyword=${encodeURIComponent(keyword)}&submit=Show`;
+            }
+            
+            // ASIN Launcher functionality (single tool)
+            document.getElementById('asinLaunchBtn').addEventListener('click', function() {
+                const asins = document.getElementById('asinInput').value.trim().split('\n').filter(asin => asin.trim() !== '');
+                const marketplaceId = document.getElementById('asinMarketplace').value;
+                const tool = document.getElementById('asinTool').value;
+                
+                if (asins.length === 0) {
+                    alert('Please enter at least one ASIN');
+                    return;
+                }
+                
+                // Get the selected region
+                const regionSelect = document.getElementById('asinRegion');
+                const selectedRegion = regionSelect.value.toUpperCase();
+                
+                // Open each ASIN in a new tab
+                asins.forEach(asin => {
+                    const trimmedAsin = asin.trim();
+                    if (trimmedAsin) {
+                        let url;
+                        if (tool === 'csi') {
+                            url = buildCSIUrl(trimmedAsin, marketplaceId, selectedRegion);
+                        } else {
+                            url = urlTemplates[tool].replace(/{asin}/g, trimmedAsin);
+                            url = url.replace(/{marketplaceId}/g, marketplaceId);
+                            url = url.replace(/{region}/g, selectedRegion);
+                        }
+                        window.open(url, '_blank');
+                    }
+                });
+            });
+            
+            // Order ID / ASIN search functionality
+            document.getElementById('orderAsinLaunchBtn').addEventListener('click', function() {
+                const inputs = document.getElementById('orderAsinInput').value.trim().split('\n').filter(input => input.trim() !== '');
+                const domain = document.getElementById('orderAsinDomain').value;
+                const type = document.getElementById('orderAsinType').value;
+                
+                if (inputs.length === 0) {
+                    alert('Please enter at least one Order ID or ASIN');
+                    return;
+                }
+                
+                // Open each input in a new tab
+                inputs.forEach(input => {
+                    const trimmedInput = input.trim();
+                    if (trimmedInput) {
+                        let url;
+                        if (type === 'order') {
+                            url = `https://sellercentral.amazon.${domain}/orders-v3/order/${encodeURIComponent(trimmedInput)}`;
+                        } else { // asin
+                            url = `https://sellercentral.amazon.com/orders-v3/search?page=1&q=${encodeURIComponent(trimmedInput)}&qt=asin`;
+                        }
+                        window.open(url, '_blank');
+                    }
+                });
+            });
+            
+            // Multi-tool launcher functionality
+            document.getElementById('multiToolLaunchBtn').addEventListener('click', function() {
+                const asins = document.getElementById('asinInput').value.trim().split('\n').filter(asin => asin.trim() !== '');
+                const marketplaceId = document.getElementById('asinMarketplace').value;
+                let selectedTools = Array.from(document.querySelectorAll('.asin-tool-cb:checked')).map(cb => cb.value);
+                
+                if (asins.length === 0) {
+                    alert('Please enter at least one ASIN');
+                    return;
+                }
+                
+                // If no checkboxes are selected, use the dropdown selection
+                if (selectedTools.length === 0) {
+                    selectedTools = [document.getElementById('asinTool').value];
+                }
+                
+                // Get the selected region
+                const regionSelect = document.getElementById('asinRegion');
+                const selectedRegion = regionSelect.value.toUpperCase();
+                
+                // Open each ASIN in each selected tool
+                asins.forEach(asin => {
+                    const trimmedAsin = asin.trim();
+                    if (trimmedAsin) {
+                        selectedTools.forEach(tool => {
+                            let url;
+                            if (tool === 'csi') {
+                                url = buildCSIUrl(trimmedAsin, marketplaceId, selectedRegion);
+                            } else {
+                                url = urlTemplates[tool].replace(/{asin}/g, trimmedAsin);
+                                url = url.replace(/{marketplaceId}/g, marketplaceId);
+                                url = url.replace(/{region}/g, selectedRegion);
+                            }
+                            window.open(url, '_blank');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header class="animate__animated animate__fadeIn">
+            <h1><strong><em>Multipurpose Launcher</em></strong></h1>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search tools...">
+                <a href="https://w.amazon.com/bin/view/Users/shahrith/" class="help-button" target="_blank">Help</a>
+            </div>
+        </header>
+        
+        <main>
+            <div class="input-sections">
+                <div class="input-group animate__animated animate__fadeInUp">
+                    <h3>Case IDs</h3>
+                    <textarea placeholder="Enter Case IDs (one per line)"></textarea>
+                    <div class="action-row">
+                        <select class="marketplace">
+                            <option value="na">NA</option>
+                            <option value="eu">EU</option>
+                            <option value="fe">FE</option>
+                        </select>
+                        <button class="launch-btn"><i class="fas fa-rocket"></i> LAUNCH</button>
+                    </div>
+                </div>
+                
+                <div class="input-group animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                    <h3>Seller ID/Brand registry</h3>
+                    <textarea placeholder="Enter Seller ID"></textarea>
+                    <div class="action-row">
+                        <select class="marketplace">
+                            <option value="na">NA</option>
+                            <option value="eu">EU</option>
+                            <option value="fe">FE</option>
+                        </select>
+                        <select class="seller-tool">
+                            <option value="paragon">Paragon</option>
+                            <option value="brand">Brand Registry</option>
+                        </select>
+                        <select id="brandSearchType" style="display:none;">
+                            <option value="name">Brand Name</option>
+                            <option value="id">Brand ID</option>
+                            <option value="mcid">MCID</option>
+                            <option value="cid">CID</option>
+                            <option value="companyCode">Company Code</option>
+                            <option value="partnerAccountId">Partner Account ID</option>
+                            <option value="trademarkNumber">Trademark Number</option>
+                        </select>
+                        <button class="launch-btn"><i class="fas fa-rocket"></i> LAUNCH</button>
+                        <button id="unlockBuyerBtn" class="lock-btn"><i class="fas fa-lock"></i></button>
+                    </div>
+                </div>
+                
+                <div class="input-group animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                    <h3>ASINs</h3>
+                    <textarea id="asinInput" placeholder="Enter ASINs (one per line)"></textarea>
+                    <div class="action-row">
+                        <select id="asinRegion" class="region-select">
+                            <option value="na">NA</option>
+                            <option value="eu">EU</option>
+                            <option value="fe">FE</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <select id="asinMarketplace" class="marketplace">
+                            <option value="1">US (1)</option>
+                            <option value="7">CA (7)</option>
+                            <option value="771770">MX (771770)</option>
+                        </select>
+                        <select id="asinTool" class="tool-select">
+                            <option value="cp">CP-Central</option>
+                            <option value="csi-tm">CSI-TimeMachine</option>
+                            <option value="csi">CSI</option>
+                            <option value="media">Media Central</option>
+                        </select>
+                        <button id="asinLaunchBtn" class="launch-btn"><i class="fas fa-rocket"></i> LAUNCH</button>
+                    </div>
+                    <div id="csiViewContainer" style="display:none;">
+                        <select id="csiViewType">
+                            <option value="blame_o">Blame-O</option>
+                            <option value="simple_product_data_view">Simple Reconciled Product Data View</option>
+                            <option value="asin_creator">ASIN Creator</option>
+                            <option value="authoritative_contributions">Authoritative Contribution History (ACT)</option>
+                            <option value="c2p_item_relationships">Child to Parent Relationships</option>
+                            <option value="c2p_item_relationships_detailed">Child to Parent Relationships Detailed</option>
+                            <option value="external_identifier_view">External Identifiers</option>
+                            <option value="domains_for_asin">Marketplaces</option>
+                            <option value="asin_sku_mappings">Merchant SKU Mappings</option>
+                            <option value="asin_sku_mappings_by_merchant">Merchant SKU Mappings By Merchant</option>
+                            <option value="p2c_item_relationships">Parent to Child Item Relationships</option>
+                            <option value="p2c_variation_dimensions_view">Parent to Child Variation View</option>
+                            <option value="retail_contributions_across_marketplaces">Retail Contributions</option>
+                            <option value="summarized_asin_sku_mappings">Summarized Merchant SKU Mappings</option>
+                        </select>
+                    </div>
+                    <div id="csiKeywordContainer" style="display:none;">
+                        <input type="text" id="csiKeyword" placeholder="Enter keyword (optional)">
+                    </div>
+                    <div id="csiMerchantContainer" style="display:none;">
+                        <input type="text" id="csiMerchantId" placeholder="Enter Merchant ID or Customer ID">
+                    </div>
+                    <div class="tool-checkboxes">
+                        <label><input type="checkbox" class="asin-tool-cb" value="cp"> CP-Central</label>
+                        <label><input type="checkbox" class="asin-tool-cb" value="csi-tm"> CSI-TimeMachine</label>
+                        <label><input type="checkbox" class="asin-tool-cb" value="csi"> CSI</label>
+                        <label><input type="checkbox" class="asin-tool-cb" value="media"> Media Central</label>
+                        <button id="multiToolLaunchBtn" class="launch-btn"><i class="fas fa-rocket"></i> LAUNCH SELECTED</button>
+                    </div>
+                </div>
+                
+                <div class="input-group animate__animated animate__fadeInUp" style="animation-delay: 0.25s">
+                    <h3>Physical ID Search</h3>
+                    <textarea id="physicalIdInput" placeholder="Enter Physical IDs (One ID per Line)"></textarea>
+                    <div class="action-row">
+                        <button id="physicalIdLaunchBtn" class="launch-btn"><i class="fas fa-rocket"></i> LAUNCH</button>
+                    </div>
+                </div>
+                
+                <div class="input-group animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                    <h3>Order ID / ASIN Search</h3>
+                    <textarea id="orderAsinInput" placeholder="Enter Order ID or ASIN"></textarea>
+                    <div class="action-row">
+                        <select id="orderAsinRegion" class="region-select">
+                            <option value="na">NA</option>
+                            <option value="eu">EU</option>
+                            <option value="fe">FE</option>
+                        </select>
+                        <select id="orderAsinDomain" class="marketplace">
+                            <option value="com">US (.com)</option>
+                            <option value="com">CA (.com)</option>
+                            <option value="com">MX (.com)</option>
+                        </select>
+                        <select id="orderAsinType">
+                            <option value="order">Order ID</option>
+                            <option value="asin">ASIN</option>
+                        </select>
+                        <button id="orderAsinLaunchBtn" class="launch-btn"><i class="fas fa-rocket"></i> LAUNCH</button>
+                    </div>
+                </div>
+                
+                <div class="input-group animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+                    <h3>Search for SIM's</h3>
+                    <textarea id="simInput" placeholder="Enter search term"></textarea>
+                    <textarea id="simKeywords" placeholder="Enter keywords (optional)" style="display:none;"></textarea>
+                    <div class="action-row">
+                        <select id="simSearchType">
+                            <option value="keyword">Keyword</option>
+                            <option value="requester">Requester</option>
+                            <option value="assignee">Assignee</option>
+                        </select>
+                        <button id="simLaunchBtn" class="launch-btn"><i class="fas fa-rocket"></i> LAUNCH</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category animate__animated animate__fadeIn" style="animation-delay: 0.4s">
+                <h2>Investigation Tools</h2>
+                <div class="links-grid">
+                    <a href="#" class="link-card" data-tooltip="Open Paragon">
+                        <div class="icon"><i class="fas fa-search"></i></div>
+                        <div class="link-info">
+                            <h3>Paragon</h3>
+                            <p>Case management</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card" data-tooltip="Open CSI">
+                        <div class="icon"><i class="fas fa-magnifying-glass"></i></div>
+                        <div class="link-info">
+                            <h3>CSI</h3>
+                            <p>Catalog investigation</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card" data-tooltip="View historical data">
+                        <div class="icon"><i class="fas fa-clock-rotate-left"></i></div>
+                        <div class="link-info">
+                            <h3>TimeMachine</h3>
+                            <p>Historical data</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card" data-tooltip="Open Seller Central">
+                        <div class="icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="link-info">
+                            <h3>Seller Central</h3>
+                            <p>Seller portal</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card" data-tooltip="Search issues">
+                        <div class="icon"><i class="fas fa-magnifying-glass-chart"></i></div>
+                        <div class="link-info">
+                            <h3>SIM Search</h3>
+                            <p>Issue management</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card" data-tooltip="Browse product images">
+                        <div class="icon"><i class="fas fa-images"></i></div>
+                        <div class="link-info">
+                            <h3>Media Central</h3>
+                            <p>Image repository</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card" data-tooltip="Find duplicate ASINs">
+                        <div class="icon"><i class="fas fa-dna"></i></div>
+                        <div class="link-info">
+                            <h3>Darwin</h3>
+                            <p>Duplicate ASIN tool</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card" data-tooltip="Check restricted products">
+                        <div class="icon"><i class="fas fa-shield-halved"></i></div>
+                        <div class="link-info">
+                            <h3>CP Central</h3>
+                            <p>Restricted products</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card" data-tooltip="Access task IDs">
+                        <div class="icon"><i class="fas fa-key"></i></div>
+                        <div class="link-info">
+                            <h3>Nemo Tool</h3>
+                            <p>Task ID access</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category animate__animated animate__fadeIn" style="animation-delay: 0.6s">
+                <h2>Research & Verification Tools</h2>
+                <div class="links-grid">
+                    <a href="#" class="link-card">
+                        <div class="icon">🌐</div>
+                        <div class="link-info">
+                            <h3>WhoIs</h3>
+                            <p>Domain lookup</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card">
+                        <div class="icon">🔍</div>
+                        <div class="link-info">
+                            <h3>What is my IP</h3>
+                            <p>IP address lookup</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card">
+                        <div class="icon">🔤</div>
+                        <div class="link-info">
+                            <h3>Amazon Translate</h3>
+                            <p>Translation service</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card">
+                        <div class="icon">💸</div>
+                        <div class="link-info">
+                            <h3>Global Transfer Guide</h3>
+                            <p>All transfer Queues</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category animate__animated animate__fadeIn" style="animation-delay: 0.8s">
+                <h2>IP & Brand Protection</h2>
+                <div class="links-grid">
+                    <a href="#" class="link-card">
+                        <div class="icon">🇪🇺</div>
+                        <div class="link-info">
+                            <h3>EUIPO</h3>
+                            <p>EU IP office</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card">
+                        <div class="icon">🌍</div>
+                        <div class="link-info">
+                            <h3>WIPO</h3>
+                            <p>World IP organization</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card">
+                        <div class="icon">🇺🇸</div>
+                        <div class="link-info">
+                            <h3>USPTO</h3>
+                            <p>US Patent office</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card">
+                        <div class="icon">🇮🇳</div>
+                        <div class="link-info">
+                            <h3>IP India</h3>
+                            <p>India IP office</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card">
+                        <div class="icon">🔍</div>
+                        <div class="link-info">
+                            <h3>IP Tracker</h3>
+                            <p>IP address lookup</p>
+                        </div>
+                    </a>
+                    <a href="#" class="link-card">
+                        <div class="icon">™️</div>
+                        <div class="link-info">
+                            <h3>Brand Registry</h3>
+                            <p>Brand management</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Prevent copying of script content
+        document.addEventListener('copy', function(e) {
+            const selection = window.getSelection().toString();
+            if (selection.includes('function(') || selection.includes('document.addEventListener')) {
+                e.clipboardData.setData('text/plain', 'Copying of script content is not allowed');
+                e.preventDefault();
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+    <script src="theme-toggle.js"></script>
+    <script src="ui-animations.js"></script>
+    
+    <style>
+        /* Dark theme styles */
+        .dark-theme {
+            --primary-color: #37cdbe;
+            --secondary-color: #ff9900;
+            --light-bg: #1a1a1a;
+            --card-bg: #2a2a2a;
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b0b0;
+        }
+        
+        /* Adjust leaf background for dark theme */
+        .dark-theme {
+            background-image: url('leaf-bg-dark.svg');
+            background-blend-mode: soft-light;
+        }
+        
+        .dark-theme #searchInput {
+            background-color: rgba(0,0,0,0.3);
+        }
+        
+        .dark-theme #searchInput:focus {
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .dark-theme select, .dark-theme textarea {
+            background-color: #333;
+            color: #f0f0f0;
+            border-color: #444;
+        }
+        
+        .dark-theme .tool-checkboxes label {
+            background-color: #333;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: 15px;
+            padding: 5px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: rotate(15deg);
+        }
+    </style>
+</body>
+</html>
